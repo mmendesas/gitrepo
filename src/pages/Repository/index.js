@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssuesList, IssueFilter } from './styles';
+import { Loading, Owner, IssuesList, IssueFilter, PageActions } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -27,6 +27,7 @@ export default class Repository extends Component {
       { state: 'closed', label: 'Fechadas', active: false },
     ],
     filterIndex: 0,
+    page: 1,
   };
 
   async componentDidMount() {
@@ -72,8 +73,24 @@ export default class Repository extends Component {
     this.loadIssues();
   };
 
+  handlePage = async action => {
+    const { page } = this.state;
+
+    await this.setState({
+      page: action === 'back' ? page - 1 : page + 1,
+    });
+    this.loadIssues();
+  };
+
   render() {
-    const { repository, issues, loading, filters, filterIndex } = this.state;
+    const {
+      repository,
+      issues,
+      loading,
+      filters,
+      filterIndex,
+      page,
+    } = this.state;
 
     if (loading) {
       return <Loading>Carregando...</Loading>;
@@ -113,6 +130,19 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssuesList>
+        <PageActions>
+          <button
+            type="button"
+            disabled={page < 2}
+            onClick={() => this.handlePage('back')}
+          >
+            Anterior
+          </button>
+          <span>Página {page}</span>
+          <button type="button" onClick={() => this.handlePage('next')}>
+            Próximo
+          </button>
+        </PageActions>
       </Container>
     );
   }
