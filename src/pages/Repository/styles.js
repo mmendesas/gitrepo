@@ -80,6 +80,17 @@ export const IssuesList = styled.ul`
             color: #0aa;
           }
         }
+
+        span {
+          background: rgba(0, 170, 170, 0.7);
+          color: #fff;
+          border-radius: 2px;
+          font-size: 12px;
+          font-weight: 600;
+          height: 20px;
+          padding: 3px 4px;
+          margin-left: 10px;
+        }
       }
 
       p {
