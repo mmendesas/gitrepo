@@ -2,9 +2,11 @@
 /* eslint-disable react/state-in-constructor */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
-import { Loading } from './styles';
+import Container from '../../components/Container';
+import { Loading, Owner } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -49,6 +51,15 @@ export default class Repository extends Component {
     if (loading) {
       return <Loading>Carregando...</Loading>;
     }
-    return <h1>Repository:</h1>;
+    return (
+      <Container>
+        <Owner>
+          <Link to="/">Voltar aos repositórios</Link>
+          <img src={repository.owner.avatar_url} alt={repository.owner.login} />
+          <h1>{repository.name}</h1>
+          <p>{repository.description}</p>
+        </Owner>
+      </Container>
+    );
   }
 }
